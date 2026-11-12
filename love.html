@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F3EADB">
+<title>오방 연애 카드</title>
+<meta name="description" content="궁정 카드 열여섯 장으로 나를 닮은 카드와 마음이 끌리는 카드를 찾아요.">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Song+Myung&display=swap">
+<style>
+/* 우체국과 같은 한지 기둥(최대 440px). 해(적)를 중심으로 궁정 카드가 부채처럼 펼쳐지는 표지 */
+:root {
+  --paper: #F3EADB; --sheet: #FBF6EC; --sky: #F6E7C8;
+  --ink: #1C1A17; --ink-soft: #4A4038; --rule: #D9C9A8;
+  --blue: #1F3A5F; --red: #B8322A; --gold: #DDA233; --green: #2F6B55; --steel: #7D7A74;
+  --display: 'Song Myung', 'Nanum Myeongjo', 'AppleMyungjo', serif;
+  --body: 'Gowun Batang', 'Nanum Myeongjo', 'AppleMyungjo', serif;
+  --gx-l: max(20px, env(safe-area-inset-left, 0px));
+  --gx-r: max(20px, env(safe-area-inset-right, 0px));
+  color-scheme: light;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; word-break: keep-all; overflow-wrap: anywhere; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; -webkit-tap-highlight-color: transparent; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--paper); }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+button { font-family: inherit; color: inherit; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.app { max-width: 440px; min-height: 100%; margin: 0 auto; display: flex; flex-direction: column; background: var(--paper); border-left: 1px solid transparent; border-right: 1px solid transparent; }
+@media (min-width: 480px) { .app { border-color: var(--ink); } }
+.head { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-left: var(--gx-l); padding-right: var(--gx-r); background: var(--paper); border-bottom: 1px solid var(--ink); }
+.head .l { display: flex; align-items: center; gap: 2px; min-width: 0; }
+.back { width: 44px; height: 44px; margin-left: -12px; padding: 0; border: 0; border-radius: 6px; background: transparent; display: grid; place-items: center; cursor: pointer; }
+.brand { font-family: var(--display); font-size: 22px; letter-spacing: .08em; color: var(--red); white-space: nowrap; }
+.badge { padding: 4px 12px; border-radius: 999px; background: var(--blue); color: var(--sheet); font-size: 13px; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.screen { flex: 1; display: flex; flex-direction: column; animation: fadein .35s ease-out both; }
+.pad { padding-left: var(--gx-l); padding-right: var(--gx-r); }
+h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 29px; line-height: 1.3; text-wrap: balance; }
+h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 24px; line-height: 1.4; text-wrap: balance; }
+.lede { margin: 10px 0 0; font-size: 15px; line-height: 1.65; color: var(--ink-soft); text-wrap: balance; }
+.small { font-size: 13px; color: var(--ink-soft); }
+.foot { margin-top: auto; padding-block: 24px 28px; display: flex; flex-direction: column; gap: 10px; }
+.btn { height: 56px; width: 100%; border: 1.5px solid var(--ink); border-radius: 6px; background: var(--red); color: var(--sheet); font-size: 18px; font-weight: 700; letter-spacing: .06em; cursor: pointer; }
+.btn.light { background: var(--sheet); color: var(--ink); font-size: 16px; height: 50px; }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.sheet { background: var(--sheet); border: 1px solid var(--ink); }
+
+/* 표지 */
+.hero { position: relative; height: 330px; overflow: hidden; background: var(--sky); border-bottom: 1px solid var(--ink); }
+.hero svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero .fan { position: absolute; left: 50%; bottom: -26px; width: 0; height: 0; }
+.hero .fan img { position: absolute; bottom: 0; width: 104px; max-width: none; height: auto; margin-left: -52px; border-radius: 3px; box-shadow: 0 2px 0 var(--ink); transform-origin: 50% 120%; animation: fanin .9s ease-out both; }
+.copy { padding-block: 22px 0; text-align: center; }
+.last { margin-top: 18px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; cursor: pointer; }
+.last img { width: 40px; height: auto; border-radius: 2px; flex: none; }
+
+/* 질문 */
+.quiz { padding-block: 22px 28px; display: flex; flex-direction: column; gap: 18px; flex: 1; }
+.prog { display: flex; gap: 6px; }
+.prog i { flex: 1; height: 6px; border-radius: 3px; background: var(--rule); }
+.prog i.on { background: var(--red); }
+.prog i.now { background: var(--gold); }
+.part { font-size: 13px; font-weight: 700; color: var(--red); letter-spacing: .04em; }
+.opts { display: flex; flex-direction: column; gap: 10px; }
+.opt { width: 100%; min-height: 60px; padding: 14px 16px; text-align: left; font-size: 16px; line-height: 1.5; border: 1.5px solid var(--ink); border-radius: 6px; background: var(--sheet); cursor: pointer; display: flex; gap: 12px; align-items: center; }
+.opt b { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-family: var(--display); font-weight: 400; border: 1px solid var(--ink); background: var(--paper); }
+.opt.on { background: var(--blue); color: var(--sheet); border-color: var(--blue); }
+.opt.on b { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+/* 고르기 */
+.pick { padding-block: 22px 0; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 10px; }
+.gcol { font-size: 12px; font-weight: 700; text-align: center; padding-bottom: 2px; border-bottom: 2px solid currentColor; }
+.cell { padding: 0; border: 0; background: transparent; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+.cell img { width: 100%; height: auto; border-radius: 3px; box-shadow: 0 1px 0 var(--ink); transition: transform .2s ease; }
+.cell span { font-size: 11.5px; line-height: 1.35; word-break: keep-all; }
+.cell.on img { box-shadow: 0 0 0 3px var(--gold), 0 1px 0 var(--ink); transform: translateY(-3px); }
+.cell.on span { font-weight: 700; }
+.chosen { min-height: 22px; text-align: center; font-size: 15px; }
+.stick { position: sticky; bottom: 0; padding-block: 14px calc(18px + env(safe-area-inset-bottom, 0px)); margin-top: auto; background: linear-gradient(to bottom, transparent, var(--paper) 30%); }
+
+/* 결과 */
+.result { padding-block: 22px 28px; display: flex; flex-direction: column; gap: 16px; }
+.box { padding: 20px; }
+.box .t { font-size: 13px; font-weight: 700; color: var(--red); letter-spacing: .04em; }
+.who { margin-top: 12px; display: flex; gap: 16px; align-items: flex-start; }
+.who img { width: 104px; height: auto; flex: none; border-radius: 3px; box-shadow: 0 2px 0 var(--ink); }
+.who .n { min-width: 0; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { padding: 3px 10px; border-radius: 999px; color: var(--sheet); font-size: 12px; font-weight: 700; }
+.who h2 { margin-top: 8px; font-size: 26px; }
+.who .tag { margin: 4px 0 0; font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
+.rows { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+.rows dt { font-size: 13px; font-weight: 700; color: var(--blue); }
+.rows dd { margin: 3px 0 0; font-size: 15px; line-height: 1.7; }
+.stars { font-size: 22px; letter-spacing: .12em; color: var(--red); }
+.match p { margin: 10px 0 0; font-size: 15px; line-height: 1.75; }
+.top3 { margin-top: 14px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.top3 div { text-align: center; }
+.top3 img { width: 100%; height: auto; border-radius: 3px; box-shadow: 0 1px 0 var(--ink); }
+.top3 b { display: block; margin-top: 6px; font-size: 13px; }
+.top3 span { display: block; font-size: 12px; color: var(--ink-soft); word-break: keep-all; }
+.top3 em { display: block; font-style: normal; font-size: 13px; color: var(--red); letter-spacing: .06em; }
+.say { margin: 14px 0 0; padding: 10px 12px; background: var(--paper); border-left: 3px solid var(--gold); font-size: 14px; line-height: 1.65; }
+.toast { min-height: 20px; margin: 0; text-align: center; font-size: 14px; font-weight: 700; color: var(--green); }
+.copybox { width: 100%; min-height: 120px; padding: 10px; font-family: var(--body); font-size: 13px; border: 1px solid var(--ink); background: var(--sheet); }
+
+/* 결과 1장: 두 카드 나란히 */
+.r1 { padding-block: 16px 0; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pair { display: grid; grid-template-columns: minmax(0, 1fr) 34px minmax(0, 1fr); align-items: start; }
+.pc { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 5px; }
+.pc .lb { font-size: 12px; font-weight: 700; color: var(--red); letter-spacing: .04em; }
+.pc img { width: 100%; max-width: 128px; height: auto; border-radius: 3px; box-shadow: 0 2px 0 var(--ink); }
+.pc h2 { font-size: 20px; line-height: 1.3; }
+.pc .fn { font-size: 12px; color: var(--ink-soft); }
+.link { align-self: center; margin-top: -40px; display: grid; place-items: center; }
+.link svg { width: 30px; height: 30px; }
+.strip { padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+.strip .top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.strip .stars { font-size: 18px; }
+.strip p { margin: 0; font-size: 14px; line-height: 1.6; }
+.mine { padding: 12px 14px; }
+.mine .t { font-size: 13px; font-weight: 700; color: var(--red); }
+.mine dl { margin: 6px 0 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 10px; }
+.mine dt { font-size: 13px; font-weight: 700; color: var(--blue); white-space: nowrap; padding-top: 1px; }
+.mine dd { margin: 0; font-size: 14px; line-height: 1.55; }
+/* 결과 2장: 잘 맞는 / 안 맞는 */
+.r2 { padding-block: 16px 24px; display: flex; flex-direction: column; gap: 12px; }
+.half { padding: 14px 14px 16px; }
+.half .t { display: flex; align-items: center; gap: 8px; font-family: var(--display); font-size: 21px; }
+.half .t i { width: 10px; height: 10px; border-radius: 50%; }
+.half .sub { margin: 2px 0 0; font-size: 13px; color: var(--ink-soft); }
+.rows2 { margin-top: 10px; display: flex; flex-direction: column; gap: 10px; }
+.mr { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 12px; align-items: center; }
+.mr img { width: 58px; height: auto; border-radius: 3px; box-shadow: 0 1px 0 var(--ink); }
+.mr img.mine-like { box-shadow: 0 0 0 3px var(--gold), 0 1px 0 var(--ink); }
+.mr .l1 { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.mr b { font-size: 15px; }
+.mr .ty { font-size: 13px; color: var(--ink-soft); }
+.mr .st { font-size: 13px; letter-spacing: .06em; }
+.mr .why { margin-top: 2px; font-size: 13px; line-height: 1.5; }
+.mr .hl { margin-left: 4px; padding: 1px 6px; border-radius: 999px; background: var(--gold); color: var(--ink); font-size: 11px; font-weight: 700; }
+.acts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.acts .btn.light { height: 46px; font-size: 15px; }
+.acts .btn:not(.light) { grid-column: 1 / -1; height: 52px; font-size: 17px; }
+@keyframes fadein { from { opacity: 0 } to { opacity: 1 } }
+@keyframes fanin { from { opacity: 0; transform: translateY(60px) rotate(0deg) } }
+@keyframes glow { 0%,100% { opacity: .35; transform: scale(1) } 50% { opacity: .8; transform: scale(1.06) } }
+.glow { transform-origin: 195px 118px; animation: glow 3.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="head">
+    <div class="l">
+      <button class="back" id="back" type="button" aria-label="뒤로 가기" title="뒤로 가기">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18 L9 12 L15 6"></path></svg>
+      </button>
+      <div class="brand">오방 연애 카드</div>
+    </div>
+    <div class="badge" id="badge">해의 방</div>
+  </header>
+  <main id="view" class="screen"></main>
+</div>
+
+<script>
+// ───────── 내용 (여기 글자를 고치면 화면 문구가 바뀌어요) ─────────
+const SUITS = [
+  { ko: '횃불', el: '불', color: '#B8322A', base: 22, gist: '열정' },
+  { ko: '술잔', el: '물', color: '#1C1A17', base: 36, gist: '감성' },
+  { ko: '칼',   el: '쇠', color: '#7D7A74', base: 50, gist: '이성' },
+  { ko: '엽전', el: '흙', color: '#B8862A', base: 64, gist: '안정' },
+];
+const RANKS = [
+  { ko: '동자', off: 10, gist: '설렘' },
+  { ko: '화랑', off: 11, gist: '직진' },
+  { ko: '마님', off: 12, gist: '품음' },
+  { ko: '대감', off: 13, gist: '이끎' },
+];
+// TYPES[슈트][계급] = { 이름, 한 줄, 연애 스타일, 강점, 조심할 점, 끌리는 이유 }
+const TYPES = [
+  [
+    { name: '설레는 탐험가', tag: '새로운 것에 눈이 반짝이는 사람', style: '좋아하는 마음이 생기면 숨기지 못해요. 함께 처음 해 보는 일을 만들며 관계를 키워 가요.', strength: '지루할 틈이 없어요. 상대에게 매일 작은 설렘을 줘요.', care: '설렘이 식으면 흥미를 잃은 것처럼 보일 수 있어요. 익숙함 속의 즐거움도 찾아보세요.', drawn: '늘 새로운 걸 보여 주는 반짝이는 에너지' },
+    { name: '직진 모험가', tag: '마음이 정해지면 바로 달려가는 사람', style: '밀고 당기기보다 솔직하게 다가가요. 함께 떠나고 부딪히며 사랑을 확인해요.', strength: '망설임 없는 표현으로 상대를 확실히 안심시켜요.', care: '속도가 빨라 상대가 숨 고를 틈이 없을 수 있어요. 상대의 박자도 살펴 주세요.', drawn: '망설임 없이 다가오는 용기' },
+    { name: '빛나는 주인공', tag: '자기 빛으로 주변을 밝히는 사람', style: '당당하고 따뜻하게 마음을 표현해요. 함께 있을 때 서로가 더 빛나는 관계를 원해요.', strength: '자신감이 넘쳐 상대에게도 힘을 줘요.', care: '관심이 나에게만 쏠리면 상대가 소외감을 느낄 수 있어요. 무대를 함께 나눠 주세요.', drawn: '어디서든 눈에 띄는 당당함과 매력' },
+    { name: '앞서는 리더', tag: '함께 갈 길을 그리는 사람', style: '둘의 미래를 크게 그리고 앞장서서 이끌어요. 꿈을 함께 나눌 사람을 찾아요.', strength: '비전이 분명해서 상대가 기대어 함께 나아가기 좋아요.', care: '혼자 정하고 이끌다 보면 상대 의견을 놓칠 수 있어요. 지도는 같이 펼쳐 보세요.', drawn: '앞을 내다보고 이끄는 든든한 추진력' },
+  ],
+  [
+    { name: '다정한 몽상가', tag: '작은 일에도 마음이 몽글해지는 사람', style: '쪽지, 노래, 사진처럼 작은 마음 표현을 좋아해요. 감정을 나누는 순간을 소중히 여겨요.', strength: '섬세해서 상대의 작은 변화도 금방 알아채요.', care: '상상 속 기대가 커지면 서운함도 커져요. 마음을 말로도 전해 보세요.', drawn: '순수하고 다정한 감수성' },
+    { name: '낭만 고백가', tag: '사랑을 이야기처럼 만드는 사람', style: '분위기와 진심을 담아 고백하는 낭만파예요. 영화 같은 순간을 함께 만들고 싶어 해요.', strength: '마음을 아름답게 표현해서 상대가 사랑받는다고 느껴요.', care: '이상과 현실이 다를 때 실망이 클 수 있어요. 평범한 날의 사랑도 아껴 주세요.', drawn: '낭만적인 표현과 진심 어린 고백' },
+    { name: '품어 주는 사람', tag: '상대의 마음을 먼저 알아주는 사람', style: '말하지 않아도 기분을 알아채고 다정하게 감싸 줘요. 깊이 이해받는 관계를 원해요.', strength: '공감하는 힘이 커서 곁에 있으면 편안해져요.', care: '상대 감정을 떠안다 지칠 수 있어요. 내 마음도 같이 돌봐 주세요.', drawn: '내 마음을 알아주는 따뜻한 공감' },
+    { name: '차분한 버팀목', tag: '흔들릴 때 중심을 잡아 주는 사람', style: '감정이 깊지만 차분하게 다스려요. 안정된 마음으로 오래가는 사랑을 원해요.', strength: '어떤 상황에서도 침착해서 상대가 기대기 좋아요.', care: '감정을 너무 감추면 무심해 보일 수 있어요. 가끔은 속마음을 꺼내 보여 주세요.', drawn: '흔들리지 않는 차분함과 너그러움' },
+  ],
+  [
+    { name: '호기심 많은 관찰자', tag: '상대가 궁금해서 질문이 많은 사람', style: '대화로 가까워져요. 상대의 생각과 이야기를 알아 가는 과정 자체를 즐겨요.', strength: '말이 잘 통하고, 상대의 이야기를 흥미롭게 들어 줘요.', care: '분석하듯 묻다 보면 상대가 시험받는 느낌을 받을 수 있어요. 마음도 함께 물어보세요.', drawn: '재치 있는 말과 반짝이는 호기심' },
+    { name: '솔직한 직진파', tag: '돌려 말하지 않는 사람', style: '생각을 분명하게 말하고 빠르게 결정해요. 애매한 관계보다 확실한 관계를 원해요.', strength: '솔직해서 오해가 쌓이지 않아요.', care: '말이 날카롭게 전해질 수 있어요. 진심에 부드러움을 한 스푼 더해 주세요.', drawn: '숨김없는 솔직함과 시원한 결단력' },
+    { name: '명확한 조언자', tag: '흐린 것을 맑게 짚어 주는 사람', style: '감정에 휩쓸리기보다 상황을 또렷하게 봐요. 서로 성장하게 돕는 관계를 원해요.', strength: '고민이 있을 때 가장 현실적인 답을 줘요.', care: '정답을 말하기 전에 위로가 먼저 필요할 때도 있어요.', drawn: '흐트러짐 없는 지성과 똑 부러짐' },
+    { name: '원칙 있는 판단가', tag: '약속과 기준이 분명한 사람', style: '신뢰와 공정함을 가장 중요하게 여겨요. 한번 정한 사람에게는 끝까지 책임을 다해요.', strength: '믿을 수 있어요. 말한 것은 꼭 지켜요.', care: '기준이 높아 상대가 부담을 느낄 수 있어요. 작은 실수엔 너그러워져 보세요.', drawn: '흔들리지 않는 원칙과 믿음직함' },
+  ],
+  [
+    { name: '성실한 새싹', tag: '차근차근 마음을 키우는 사람', style: '천천히 알아 가며 작은 약속부터 지켜요. 함께 배우고 자라는 관계를 좋아해요.', strength: '꾸준하고 진지해서 믿음이 가요.', care: '너무 신중해서 마음 표현이 늦을 수 있어요. 좋아한다는 말을 아끼지 마세요.', drawn: '묵묵하고 성실한 진심' },
+    { name: '꾸준한 동반자', tag: '한결같이 곁을 지키는 사람', style: '화려하진 않아도 매일 같은 자리에서 챙겨 줘요. 일상을 함께 쌓는 연애를 해요.', strength: '변덕이 없어 오래 만나도 편안해요.', care: '익숙함이 지루함이 되지 않게 가끔 새로운 이벤트를 넣어 보세요.', drawn: '언제나 그 자리에 있는 한결같음' },
+    { name: '살뜰한 살림꾼', tag: '생활 속에서 사랑을 챙기는 사람', style: '밥은 먹었는지, 잠은 잘 잤는지 살뜰하게 챙겨요. 편안한 일상을 함께 가꾸고 싶어 해요.', strength: '곁에 있으면 생활이 따뜻하고 든든해져요.', care: '챙기기만 하다 서운해질 수 있어요. 받고 싶은 것도 말해 주세요.', drawn: '생활 속에서 느껴지는 살뜰한 다정함' },
+    { name: '든든한 기둥', tag: '함께할 내일을 준비하는 사람', style: '현실적인 계획과 안정감으로 사랑을 지켜요. 오래 함께할 사람을 신중하게 골라요.', strength: '어떤 일이 생겨도 기댈 수 있는 안정감을 줘요.', care: '현실만 챙기다 낭만을 놓칠 수 있어요. 가끔은 계산 없이 마음을 표현해 보세요.', drawn: '기대고 싶은 든든함과 책임감' },
+  ],
+];
+// 질문: kind 'suit'면 보기의 v가 슈트(0 횃불, 1 술잔, 2 칼, 3 엽전), 'rank'면 계급(0 동자, 1 화랑, 2 마님, 3 대감)
+const QUESTIONS = [
+  { kind: 'suit', q: '좋아하는 사람이 생기면 나는…', opts: [
+    { v: 2, t: '이 사람이 정말 나와 맞는지 먼저 차분히 살펴봐요' },
+    { v: 0, t: '티가 확 나요. 먼저 말 걸 기회를 만들어요' },
+    { v: 3, t: '천천히 곁에 머물며 믿음을 쌓아요' },
+    { v: 1, t: '하루 종일 그 사람 생각에 마음이 일렁여요' } ] },
+  { kind: 'suit', q: '가장 끌리는 데이트는?', opts: [
+    { v: 1, t: '분위기 좋은 곳에서 오래 이야기 나누기' },
+    { v: 3, t: '맛있는 걸 해 먹고 편하게 쉬는 집 데이트' },
+    { v: 0, t: '처음 가 보는 곳으로 떠나는 즉흥 여행' },
+    { v: 2, t: '전시나 강연을 보고 서로 생각 나누기' } ] },
+  { kind: 'suit', q: '연인과 다퉜을 때 나는…', opts: [
+    { v: 0, t: '바로 말하고 빨리 풀어요' },
+    { v: 2, t: '무엇이 문제였는지 차분히 짚어 봐요' },
+    { v: 1, t: '서운한 마음을 먼저 알아주길 바라요' },
+    { v: 3, t: '시간을 두고 행동으로 다시 잘해요' } ] },
+  { kind: 'suit', q: '연인에게 가장 듣고 싶은 말은?', opts: [
+    { v: 3, t: '“너는 정말 믿음직해”' },
+    { v: 1, t: '“네 마음 다 알아”' },
+    { v: 0, t: '“너랑 있으면 하루가 신나”' },
+    { v: 2, t: '“네 생각이 정말 좋아”' } ] },
+  { kind: 'rank', q: '관계를 시작할 때 나는…', opts: [
+    { v: 1, t: '마음이 정해지면 바로 고백해요' },
+    { v: 3, t: '이 관계를 어떻게 이어 갈지 큰 그림을 그려요' },
+    { v: 0, t: '설레는 마음에 이것저것 궁금한 게 많아요' },
+    { v: 2, t: '상대가 편하게 다가올 수 있게 기다려 줘요' } ] },
+  { kind: 'rank', q: '연애할 때 내 모습은 주로…', opts: [
+    { v: 2, t: '챙겨 주고 들어 주는 사람' },
+    { v: 0, t: '분위기를 밝게 만드는 사람' },
+    { v: 3, t: '중심을 잡고 결정을 내리는 사람' },
+    { v: 1, t: '이벤트를 준비하고 몸으로 표현하는 사람' } ] },
+  { kind: 'rank', q: '연인이 힘들어할 때 나는…', opts: [
+    { v: 3, t: '해결 방법을 같이 찾아 줘요' },
+    { v: 1, t: '당장 달려가요' },
+    { v: 2, t: '곁에서 끝까지 이야기를 들어 줘요' },
+    { v: 0, t: '웃게 해 주려고 엉뚱한 걸 해요' } ] },
+  { kind: 'rank', q: '오래가는 연애에 가장 필요한 건?', opts: [
+    { v: 0, t: '계속 새로워지는 설렘' },
+    { v: 2, t: '서로를 아끼는 다정함' },
+    { v: 1, t: '식지 않는 열정과 표현' },
+    { v: 3, t: '믿을 수 있는 약속과 책임' } ] },
+];
+// 오행 관계 (횃불=불, 술잔=물, 칼=쇠, 엽전=흙). 키는 작은 번호-큰 번호
+const SUIT_REL = {
+  '0-3': { kind: '상생', text: '불이 흙을 데우듯, 횃불의 열정이 엽전의 안정을 따뜻하게 키워 줘요. 서로를 살려 주는 사이예요.' },
+  '2-3': { kind: '상생', text: '흙 속에서 쇠가 나듯, 엽전의 안정이 칼의 또렷함을 든든하게 받쳐 줘요. 서로를 살려 주는 사이예요.' },
+  '1-2': { kind: '상생', text: '차가운 쇠에 이슬이 맺히듯, 칼의 또렷함이 술잔의 감성을 맑게 해 줘요. 서로를 살려 주는 사이예요.' },
+  '0-1': { kind: '상극', text: '물과 불처럼 온도가 달라요. 처음엔 부딪히지만 서로를 식혀 주고 데워 주며 균형을 배워 가요.' },
+  '0-2': { kind: '상극', text: '불이 쇠를 단련하듯 서로를 날카롭게 깨워요. 다툼도 있지만 함께 더 단단해지는 사이예요.' },
+  '1-3': { kind: '상극', text: '흙이 물길을 잡아 주듯 서로를 붙잡아 줘요. 자유로움과 안정 사이에서 박자를 맞추는 게 숙제예요.' },
+};
+const SAME_SUIT = '같은 기운끼리예요. 말하지 않아도 통하는 게 많지만, 같은 약점도 함께 가지고 있어요.';
+// 2장 짧은 이유 문구
+const SUIT_SHORT = { 상생: '서로를 살려 주는 기운', 같음: '닮은 기운', 상극: '부딪히는 기운' };
+const RANK_SHORT = { 보완: '빈 곳을 채우는 박자', 같음: '같은 박자', 다름: '서로 다른 박자' };
+const PAIR_TIP = {
+  same: '말하지 않아도 잘 통해요',
+  '0-3': '열정이 안정을 데워 줘요', '2-3': '안정이 또렷함을 받쳐 줘요', '1-2': '또렷함이 감성을 맑게 해요',
+  '0-1': '감정의 온도를 맞추는 게 숙제예요', '0-2': '말다툼을 조심해야 해요', '1-3': '자유와 안정 사이 줄다리기를 해요',
+};
+const RANK_REL = {
+  same: '연애의 속도와 방식이 비슷해서 박자가 잘 맞아요.',
+  '0-3': '설렘을 주는 쪽과 중심을 잡는 쪽이라 서로의 빈 곳을 채워 줘요.',
+  '1-2': '먼저 움직이는 쪽과 품어 주는 쪽이라 서로에게 꼭 필요한 짝이에요.',
+  other: '연애의 박자가 조금 달라서, 서로의 속도를 알아 가는 재미가 있어요.',
+};
+
+// ───────── 계산 ─────────
+const STORE = 'obang-love-v1';
+const cardImg = (s, r) => 'cards/' + String(SUITS[s].base + RANKS[r].off).padStart(2, '0') + '.jpg';
+const typeOf = (c) => TYPES[c.s][c.r];
+const fullName = (c) => SUITS[c.s].ko + ' ' + RANKS[c.r].ko;
+const key = (a, b) => Math.min(a, b) + '-' + Math.max(a, b);
+function suitScore(a, b) { if (a === b) return 0.5; return SUIT_REL[key(a, b)].kind === '상생' ? 0.6 : 0.25; }
+function rankScore(a, b) { if (a === b) return 0.35; const k = key(a, b); return (k === '0-3' || k === '1-2') ? 0.4 : 0.2; }
+function compat(a, b) { return suitScore(a.s, b.s) + rankScore(a.r, b.r); }
+function stars(x) { const n = Math.max(1, Math.min(5, Math.round(x * 5))); return '★'.repeat(n) + '☆'.repeat(5 - n); }
+function suitText(a, b) { return a === b ? SAME_SUIT : SUIT_REL[key(a, b)].text; }
+function rankText(a, b) { if (a === b) return RANK_REL.same; return RANK_REL[key(a, b)] || RANK_REL.other; }
+function bestFor(me) {
+  const all = [];
+  for (let s = 0; s < 4; s++) for (let r = 0; r < 4; r++) all.push({ s, r, sc: compat(me, { s, r }) });
+  return all.sort((x, y) => y.sc - x.sc).slice(0, 3);
+}
+function scoreAnswers(ans) {
+  const su = [0, 0, 0, 0], ra = [0, 0, 0, 0];
+  QUESTIONS.forEach((q, i) => {
+    if (ans[i] == null) return;
+    const w = 1 + (QUESTIONS.length - i) * 0.001; // 동점이면 앞 질문을 조금 더 반영
+    (q.kind === 'suit' ? su : ra)[q.opts[ans[i]].v] += w;
+  });
+  const top = (arr) => arr.indexOf(Math.max.apply(null, arr));
+  return { s: top(su), r: top(ra) };
+}
+function loadLast() { try { return JSON.parse(localStorage.getItem(STORE) || 'null'); } catch (e) { return null; } }
+function saveLast(v) { try { localStorage.setItem(STORE, JSON.stringify(v)); } catch (e) {} }
+function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+// ───────── 화면 ─────────
+const view = document.getElementById('view');
+const badge = document.getElementById('badge');
+const S = { screen: 'intro', i: 0, ans: [], me: null, like: null };
+
+function show(screen) {
+  S.screen = screen;
+  view.className = 'screen'; void view.offsetWidth;
+  ({ intro: renderIntro, quiz: renderQuiz, pick: renderPick, result: renderResult, match: renderMatch })[screen]();
+  window.scrollTo(0, 0);
+}
+
+function renderIntro() {
+  badge.textContent = '해의 방';
+  const last = loadLast();
+  view.innerHTML =
+    '<div class="hero">' +
+      '<svg viewBox="0 0 390 330" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+        '<rect width="390" height="330" fill="#F6E7C8"></rect>' +
+        '<circle class="glow" cx="195" cy="118" r="92" fill="#DDA233" opacity=".5"></circle>' +
+        '<g stroke="#DDA233" stroke-width="3" stroke-linecap="round">' +
+          Array.from({ length: 16 }, (_, k) => { const a = k * Math.PI / 8; return '<line x1="' + (195 + Math.cos(a) * 74).toFixed(1) + '" y1="' + (118 + Math.sin(a) * 74).toFixed(1) + '" x2="' + (195 + Math.cos(a) * 88).toFixed(1) + '" y2="' + (118 + Math.sin(a) * 88).toFixed(1) + '"></line>'; }).join('') +
+        '</g>' +
+        '<circle cx="195" cy="118" r="62" fill="#B8322A" stroke="#1C1A17" stroke-width="1.2"></circle>' +
+        '<path d="M0 260 Q70 210 140 240 Q200 200 260 236 Q320 214 390 240 L390 330 L0 330 Z" fill="#8DB5A2" stroke="#1C1A17" stroke-width="1"></path>' +
+      '</svg>' +
+      '<div class="fan">' +
+        '<img src="' + cardImg(1, 2) + '" alt="" style="transform:rotate(-16deg) translateX(-34px); animation-delay:.05s">' +
+        '<img src="' + cardImg(3, 3) + '" alt="" style="transform:rotate(16deg) translateX(34px); animation-delay:.15s">' +
+        '<img src="' + cardImg(0, 1) + '" alt="" style="animation-delay:.25s">' +
+      '</div>' +
+    '</div>' +
+    '<div class="copy pad">' +
+      '<h1>나는 어떤 카드일까</h1>' +
+      '<p class="lede">궁정 카드 열여섯 장 가운데<br>나를 닮은 카드와 마음이 끌리는 카드를 찾아 드려요.</p>' +
+      '<p class="small" style="margin:10px 0 0">질문 8개 · 끌리는 카드 고르기 · 약 2분</p>' +
+      (last ? '<button type="button" class="sheet last" data-act="last"><img src="' + cardImg(last.me.s, last.me.r) + '" alt=""><span><span class="small">지난 결과</span><br><b>' + esc(fullName(last.me)) + ' · ' + esc(typeOf(last.me).name) + '</b></span></button>' : '') +
+    '</div>' +
+    '<div class="foot pad"><button class="btn" type="button" data-act="start">시작하기</button></div>';
+}
+
+function renderQuiz() {
+  const q = QUESTIONS[S.i];
+  badge.textContent = (S.i + 1) + ' / ' + QUESTIONS.length;
+  view.innerHTML =
+    '<div class="quiz pad">' +
+      '<div class="prog" aria-hidden="true">' + QUESTIONS.map((_, k) => '<i class="' + (k < S.i ? 'on' : k === S.i ? 'now' : '') + '"></i>').join('') + '</div>' +
+      '<div><div class="part">' + (q.kind === 'suit' ? '나를 닮은 카드 · 마음의 기운' : '나를 닮은 카드 · 사랑하는 방식') + '</div>' +
+      '<h2 style="margin-top:8px">' + esc(q.q) + '</h2></div>' +
+      '<div class="opts" role="group" aria-label="보기">' + q.opts.map((o, k) => '<button type="button" class="opt' + (S.ans[S.i] === k ? ' on' : '') + '" data-act="ans" data-k="' + k + '"><b>' + '가나다라'[k] + '</b><span>' + esc(o.t) + '</span></button>').join('') + '</div>' +
+    '</div>';
+}
+
+function renderPick() {
+  badge.textContent = '끌리는 카드';
+  let grid = SUITS.map((s) => '<div class="gcol" style="color:' + s.color + '">' + s.ko + '</div>').join('');
+  for (let r = 0; r < 4; r++) for (let s = 0; s < 4; s++) {
+    const on = S.like && S.like.s === s && S.like.r === r;
+    grid += '<button type="button" class="cell' + (on ? ' on' : '') + '" data-act="like" data-s="' + s + '" data-r="' + r + '" aria-pressed="' + !!on + '" aria-label="' + SUITS[s].ko + ' ' + RANKS[r].ko + ', ' + TYPES[s][r].name + '">' +
+      '<img src="' + cardImg(s, r) + '" alt=""><span>' + esc(TYPES[s][r].name) + '</span></button>';
+  }
+  view.innerHTML =
+    '<div class="pick pad">' +
+      '<div><div class="part">끌리는 카드</div><h2 style="margin-top:8px">마음이 끌리는 사람을 한 장 골라 보세요</h2>' +
+      '<p class="lede" style="margin-top:6px">그림과 이름을 보고 가장 마음이 가는 카드를 고르면 돼요.</p></div>' +
+      '<div class="grid">' + grid + '</div>' +
+      '<p class="chosen" id="chosen" aria-live="polite">' + (S.like ? '<b>' + esc(fullName(S.like)) + '</b> · ' + esc(typeOf(S.like).drawn) : '') + '</p>' +
+      '<div class="stick"><button class="btn" type="button" data-act="done"' + (S.like ? '' : ' disabled') + '>결과 보기</button></div>' +
+    '</div>';
+}
+
+function suitKind(a, b) { return a === b ? '같음' : SUIT_REL[key(a, b)].kind; }
+function rankKind(a, b) { if (a === b) return '같음'; const k = key(a, b); return (k === '0-3' || k === '1-2') ? '보완' : '다름'; }
+function pairTip(a, b) { return a === b ? PAIR_TIP.same : PAIR_TIP[key(a, b)]; }
+// 점수 순서대로 두 장 고르기 (같은 점수면 서로 다른 슈트를 먼저)
+function pickTwo(list) {
+  const out = [list[0]];
+  for (let i = 1; i < list.length && out.length < 2; i++) {
+    if (list[i].s !== out[0].s || list[i].sc !== out[0].sc) { out.push(list[i]); }
+  }
+  if (out.length < 2) out.push(list[1]);
+  return out;
+}
+function ranked(me) {
+  const all = [];
+  for (let s = 0; s < 4; s++) for (let r = 0; r < 4; r++) all.push({ s, r, sc: compat(me, { s, r }) });
+  return all;
+}
+function bestTwo(me) { return pickTwo(ranked(me).sort((x, y) => y.sc - x.sc || (x.s === me.s) - (y.s === me.s))); }
+function worstTwo(me) { return pickTwo(ranked(me).sort((x, y) => x.sc - y.sc)); }
+const same = (a, b) => a.s === b.s && a.r === b.r;
+const starCount = (x) => stars(x).split('★').length - 1;
+
+function renderResult() {
+  badge.textContent = '나의 카드';
+  const me = S.me, like = S.like, tm = typeOf(me), tl = typeOf(like);
+  const sc = compat(me, like);
+  view.innerHTML =
+    '<div class="r1 pad">' +
+      '<div class="pair">' +
+        '<div class="pc"><div class="lb">나를 닮은 카드</div><img src="' + cardImg(me.s, me.r) + '" alt="' + esc(fullName(me)) + ' 카드"><h2>' + esc(tm.name) + '</h2><div class="fn">' + esc(fullName(me)) + '</div></div>' +
+        '<div class="link" aria-hidden="true"><svg viewBox="0 0 30 30"><path d="M15 25 C6 19 3 14 3 10 A5.5 5.5 0 0 1 15 7 A5.5 5.5 0 0 1 27 10 C27 14 24 19 15 25 Z" fill="#B8322A" stroke="#1C1A17" stroke-width="1.2" stroke-linejoin="round"></path></svg></div>' +
+        '<div class="pc"><div class="lb">내가 끌리는 카드</div><img src="' + cardImg(like.s, like.r) + '" alt="' + esc(fullName(like)) + ' 카드"><h2>' + esc(tl.name) + '</h2><div class="fn">' + esc(fullName(like)) + '</div></div>' +
+      '</div>' +
+      '<section class="sheet strip">' +
+        '<div class="top"><span class="stars" aria-label="둘의 궁합, 별 다섯 개 중 ' + starCount(sc) + '개">' + stars(sc) + '</span><span class="small">' + esc(SUITS[me.s].el) + '과 ' + esc(SUITS[like.s].el) + ' · ' + (me.s === like.s ? '같은 기운' : SUIT_REL[key(me.s, like.s)].kind) + '</span></div>' +
+        '<p>' + esc(suitText(me.s, like.s)) + '</p>' +
+        '<p class="small">당신은 <b style="color:var(--ink)">' + esc(tl.drawn) + '</b>에 마음이 가요.</p>' +
+      '</section>' +
+      '<section class="sheet mine">' +
+        '<div class="t">' + esc(tm.name) + ' · ' + esc(tm.tag) + '</div>' +
+        '<dl><dt>연애</dt><dd>' + esc(tm.style) + '</dd><dt>강점</dt><dd>' + esc(tm.strength) + '</dd><dt>조심</dt><dd>' + esc(tm.care) + '</dd></dl>' +
+      '</section>' +
+      '<div class="stick"><button class="btn" type="button" data-act="next">잘 맞는 카드 · 안 맞는 카드 보기</button></div>' +
+    '</div>';
+}
+
+function renderMatch() {
+  badge.textContent = '궁합';
+  const me = S.me, like = S.like;
+  const good = bestTwo(me), bad = worstTwo(me);
+  const card = (t, isGood) => {
+    const isLike = same(t, like);
+    return '<div class="mr"><img class="' + (isLike ? 'mine-like' : '') + '" src="' + cardImg(t.s, t.r) + '" alt="' + esc(SUITS[t.s].ko + ' ' + RANKS[t.r].ko) + ' 카드">' +
+      '<div><div class="l1"><b>' + esc(SUITS[t.s].ko + ' ' + RANKS[t.r].ko) + (isLike ? '<span class="hl">끌리는 카드</span>' : '') + '</b><span class="ty">' + esc(TYPES[t.s][t.r].name) + '</span></div>' +
+      '<div class="st" style="color:' + (isGood ? 'var(--red)' : 'var(--steel)') + '" aria-label="별 다섯 개 중 ' + starCount(t.sc) + '개">' + stars(t.sc) + '</div>' +
+      '<div class="small" style="margin-top:2px">' + esc(SUIT_SHORT[suitKind(me.s, t.s)] + ' · ' + RANK_SHORT[rankKind(me.r, t.r)]) + '</div>' +
+      '<div class="why">' + esc(pairTip(me.s, t.s)) + '</div></div></div>';
+  };
+  const inGood = good.some((t) => same(t, like)), inBad = bad.some((t) => same(t, like));
+  const likeSc = compat(me, like);
+  const note = inGood ? '끌리는 카드가 잘 맞는 카드에 들어 있어요. 마음 가는 대로 다가가도 좋아요.'
+    : inBad ? '끌리는 카드가 안 맞는 카드에 들어 있어요. 끌림이 강한 만큼 서로의 다름을 이해하는 노력이 필요해요.'
+    : '끌리는 카드(' + fullName(like) + ', ' + stars(likeSc) + ')는 잘 맞는 쪽과 안 맞는 쪽 사이에 있어요. 끌림은 끌림대로, 편안함은 편안함대로 살펴보세요.';
+  view.innerHTML =
+    '<div class="r2 pad">' +
+      '<div><div class="part">' + esc(fullName(me) + ' · ' + typeOf(me).name) + '에게</div><h2 style="margin-top:6px">나와 잘 맞는 카드, 안 맞는 카드</h2></div>' +
+      '<section class="sheet half"><div class="t"><i style="background:var(--red)"></i>잘 맞는 카드</div><p class="sub">함께 있으면 서로가 편안하고 힘이 나요.</p><div class="rows2">' + good.map((t) => card(t, true)).join('') + '</div></section>' +
+      '<section class="sheet half"><div class="t"><i style="background:var(--steel)"></i>안 맞는 카드</div><p class="sub">끌릴 수는 있지만 부딪히기 쉬운 사이예요.</p><div class="rows2">' + bad.map((t) => card(t, false)).join('') + '</div></section>' +
+      '<p class="say" style="margin:0">' + esc(note) + ' <span class="small">(재미로 보는 카드 궁합이에요)</span></p>' +
+      '<p class="toast" id="toast" role="status" style="min-height:0"></p>' +
+      '<div id="copyfallback"></div>' +
+      '<div class="acts">' +
+        '<button class="btn light" type="button" data-act="copy">결과 복사하기</button>' +
+        '<button class="btn light" type="button" data-act="again">다시 하기</button>' +
+        '<button class="btn" type="button" data-act="home">우체국으로 돌아가기</button>' +
+      '</div>' +
+    '</div>';
+}
+
+function resultText() {
+  const me = S.me, like = S.like, nm = (t) => SUITS[t.s].ko + ' ' + RANKS[t.r].ko;
+  return '오방 연애 카드\n' +
+    '나를 닮은 카드: ' + fullName(me) + ' · ' + typeOf(me).name + '\n' +
+    '끌리는 카드: ' + fullName(like) + ' · ' + typeOf(like).name + ' (' + stars(compat(me, like)) + ')\n' +
+    '잘 맞는 카드: ' + bestTwo(me).map(nm).join(', ') + '\n' +
+    '안 맞는 카드: ' + worstTwo(me).map(nm).join(', ');
+}
+
+view.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-act]');
+  if (!el) return;
+  const act = el.dataset.act;
+  if (act === 'start') { Object.assign(S, { i: 0, ans: [], me: null, like: null }); show('quiz'); }
+  else if (act === 'last') { const l = loadLast(); if (l) { S.me = l.me; S.like = l.like; show('result'); } }
+  else if (act === 'ans') {
+    S.ans[S.i] = +el.dataset.k;
+    view.querySelectorAll('.opt').forEach((b) => b.classList.toggle('on', b === el));
+    setTimeout(() => {
+      if (S.i < QUESTIONS.length - 1) { S.i++; show('quiz'); }
+      else { S.me = scoreAnswers(S.ans); show('pick'); }
+    }, 220);
+  }
+  else if (act === 'like') {
+    S.like = { s: +el.dataset.s, r: +el.dataset.r };
+    view.querySelectorAll('.cell').forEach((c) => { const on = c === el; c.classList.toggle('on', on); c.setAttribute('aria-pressed', on); });
+    document.getElementById('chosen').innerHTML = '<b>' + esc(fullName(S.like)) + '</b> · ' + esc(typeOf(S.like).drawn);
+    view.querySelector('[data-act="done"]').disabled = false;
+  }
+  else if (act === 'next') show('match');
+  else if (act === 'done') { if (!S.like) return; saveLast({ me: S.me, like: S.like }); show('result'); }
+  else if (act === 'again') { Object.assign(S, { i: 0, ans: [], me: null, like: null }); show('quiz'); }
+  else if (act === 'home') goHome();
+  else if (act === 'copy') {
+    const text = resultText();
+    const toast = document.getElementById('toast');
+    const fallback = () => {
+      const box = document.getElementById('copyfallback');
+      box.innerHTML = '<textarea class="copybox" id="copytext" readonly aria-label="결과 글">' + esc(text) + '</textarea>';
+      const ta = document.getElementById('copytext'); ta.focus(); ta.select();
+      toast.textContent = '글을 길게 눌러 복사해 주세요.';
+    };
+    try { navigator.clipboard.writeText(text).then(() => { toast.textContent = '결과를 복사했어요.'; }, fallback); } catch (err) { fallback(); }
+  }
+});
+
+function goHome() {
+  let fromHere = false;
+  try { fromHere = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (e) {}
+  if (fromHere && history.length > 1) history.back(); else location.href = 'index.html';
+}
+document.getElementById('back').addEventListener('click', () => {
+  if (S.screen === 'intro') return goHome();
+  if (S.screen === 'quiz') { if (S.i > 0) { S.i--; show('quiz'); } else show('intro'); return; }
+  if (S.screen === 'pick') { S.i = QUESTIONS.length - 1; show('quiz'); return; }
+  if (S.screen === 'result') { show('pick'); return; }
+  if (S.screen === 'match') { show('result'); return; }
+});
+
+show('intro');
+</script>
+</body>
+</html>

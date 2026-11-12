@@ -1,0 +1,80 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 아래 따옴표 안을 관리자 UID로 바꾸세요 (한 곳만 바꾸면 돼요)
+    function isAdmin() { return request.auth != null && request.auth.uid == 'MoX3yB0hsuNfO8m8I8eqpCEX6Ue2'; }
+    function signedIn() { return request.auth != null; }
+    function validCard(c) { return c is list && c.size() == 2 && c[0] is int && c[0] >= 0 && c[0] < 78 && (c[1] == 0 || c[1] == 1); }
+
+    // ── 운영자에게 보낸 편지 ──
+    match /letters/{letterId} {
+      // 누구나 '보내기'만 할 수 있어요
+      allow create: if request.resource.data.keys().hasOnly(['q', 'drawn', 'rev', 'topic', 'createdAt'])
+        && request.resource.data.q is string
+        && request.resource.data.q.size() > 0 && request.resource.data.q.size() <= 200
+        && request.resource.data.drawn is list && request.resource.data.drawn.size() == 3
+        && request.resource.data.rev is list && request.resource.data.rev.size() == 3
+        && request.resource.data.topic is string && request.resource.data.topic.size() <= 10
+        && request.resource.data.createdAt == request.time;
+      allow read, delete: if isAdmin();
+      allow update: if false;
+    }
+
+    // ── 이어지는 편지: 참여자 목록 (편지 내용은 없고 카드·주제·별명만) ──
+    match /pool/{uid} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['nick', 'sit', 'res', 'adv', 'topic', 'at'])
+        && request.resource.data.nick is string && request.resource.data.nick.size() > 0 && request.resource.data.nick.size() <= 10
+        && validCard(request.resource.data.sit) && validCard(request.resource.data.res) && validCard(request.resource.data.adv)
+        && request.resource.data.topic is string && request.resource.data.topic.size() <= 10
+        && request.resource.data.at == request.time;
+      allow delete: if signedIn() && (request.auth.uid == uid || isAdmin());
+    }
+
+    // ── 대화방 ──
+    function isMember(r) { return signedIn() && (request.auth.uid == r.a || request.auth.uid == r.b); }
+    match /rooms/{roomId} {
+      allow read: if isMember(resource.data) || isAdmin();
+      // 신청: 내가 a이고, 처음 상태는 'pending'
+      allow create: if signedIn() && request.resource.data.a == request.auth.uid
+        && request.resource.data.b is string && request.resource.data.b != request.auth.uid
+        && request.resource.data.keys().hasOnly(['a', 'b', 'names', 'score', 'status', 'at', 'last'])
+        && request.resource.data.status == 'pending'
+        && request.resource.data.names is map
+        && request.resource.data.score is int;
+      // 상태 바꾸기: 수락('open')은 신청받은 사람(b)만, 끝내기('closed')는 둘 다 또는 관리자
+      allow update: if (isMember(resource.data) || isAdmin())
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'last'])
+        && request.resource.data.status in ['pending', 'open', 'closed']
+        && (request.resource.data.status == resource.data.status
+            || (request.resource.data.status == 'open' && resource.data.status == 'pending' && request.auth.uid == resource.data.b)
+            || request.resource.data.status == 'closed')
+        && resource.data.status != 'closed';
+
+      match /msgs/{msgId} {
+        function room() { return get(/databases/$(database)/documents/rooms/$(roomId)).data; }
+        allow read: if isMember(room()) || isAdmin();
+        allow create: if isMember(room()) && room().status == 'open'
+          && request.resource.data.keys().hasOnly(['from', 'text', 'at'])
+          && request.resource.data.from == request.auth.uid
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 500
+          && request.resource.data.at == request.time;
+        allow update, delete: if false;
+      }
+    }
+
+    // ── 신고 ──
+    match /reports/{reportId} {
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['room', 'from', 'reason', 'at'])
+        && request.resource.data.from == request.auth.uid
+        && request.resource.data.room is string
+        && request.resource.data.reason is string && request.resource.data.reason.size() <= 40
+        && request.resource.data.at == request.time;
+      allow read, delete: if isAdmin();
+    }
+  }
+}
