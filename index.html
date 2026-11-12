@@ -402,7 +402,7 @@ textarea::placeholder { color: #8A7E70; }
 <template id="t-write">
   <div class="copy pad" style="text-align:left; padding-block: 28px 0">
     <h1>마음을 담아 편지를 써 보세요</h1>
-    <p class="lede">고민이나 묻고 싶은 것을 적어 보내면, 오방 우체국이 카드 세 장으로 답장을 보내 드려요.</p>
+    <p class="lede">고민이나 묻고 싶은 것을 적어 보내면, 오방 우체국이 카드 세 장으로 답장을 보내 드려요.<br><span style="font-size:14px">(나이, 성별, 직업을 함께 적어 주시면 보다 정확한 결과를 받아 볼 수 있어요.)</span></p>
   </div>
   <div class="pad">
     <div class="sheet letter">
@@ -411,7 +411,7 @@ textarea::placeholder { color: #8A7E70; }
         <div class="small">받는 곳 · 오방 우체국</div>
       </div>
       <div class="hr"></div>
-      <textarea id="letter-text" maxlength="200" placeholder="예) 요즘 진로 때문에 마음이 복잡해요. 어떤 길로 가면 좋을까요?"></textarea>
+      <textarea id="letter-text" maxlength="200" placeholder="예) 요즘 진로 때문에 마음이 복잡해요. 어떤 길로 가면 좋을까요? (24살, 여자, 대학생)"></textarea>
       <div class="count small"><span id="qlen">0</span> / 200</div>
     </div>
     <p class="err" id="err" role="alert" hidden>한 줄이라도 마음을 적어 주세요.</p>
@@ -610,6 +610,7 @@ function img(i) { return 'cards/' + String(i).padStart(2, '0') + '.jpg'; }
 function fmtDate(t) { const d = new Date(t); return (d.getMonth() + 1) + '월 ' + d.getDate() + '일'; }
 
 function topicOf(text) {
+  text = String(text || '').replace(/\([^)]*\)/g, ' '); // 괄호 안 나이·성별·직업은 주제 판단에서 빼요
   let best = '일반', bestN = 0;
   Object.keys(TP.T).forEach((k) => {
     const n = TP.T[k].kw.reduce((a, w) => a + (text.indexOf(w) >= 0 ? 1 : 0), 0);
